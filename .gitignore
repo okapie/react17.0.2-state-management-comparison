@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/recoil-hooks/node_modules
 /.pnp
 .pnp.js
 
