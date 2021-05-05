@@ -4,7 +4,7 @@ const inputForm = atom({
   key: 'createInputForm',
   default: [
     {
-      id: 0,
+      id: 1,
       value: 'Enter something.',
     },
   ],

@@ -1,48 +1,51 @@
 import { useState, useCallback } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import inputForm from '../atoms/inputForm';
 import './TodoList.css';
 
 const TodoList = () => {
-  const [inputText, setInputText] = useState(undefined);
   const [updatedObject, setUpdatedObject] = useState(undefined);
-  const [list, setList] = useState([]);
+  const [list] = useRecoilState(inputForm);
 
-  const addNewItem = () => {
-    if (!inputText) return;
+  const setInputForm = useSetRecoilState(inputForm);
 
-    const updatedList = list && list.length > 0 ? [...list, { id: list.length + 1, value: inputText }] : [{ id: list.length + 1, value: inputText }];
-    setList(updatedList);
-    setInputText(undefined);
-  };
+  const initInputForm = useCallback(() => {
+    setInputForm(state => [...state, { id: state.length + 1, value: '' }])
+  }, [setInputForm])
 
-  const changeItemValue = useCallback(id => {
-    if (!updatedObject) return;
+  const changeItemValue = useCallback(e => {
+    const { id, value } = e.target;
 
     const updatedList = list.reduce((accumulator, currentValue) => {
-      if (currentValue.id === id) {
-        currentValue.value = updatedObject[id]
+      if (currentValue.id === Number(id)) {
+        return [ ...accumulator, { id: Number(id), value } ]
       }
       return [ ...accumulator, { ...currentValue } ]
-    }, [])
+    }, []);
 
-    setList(updatedList);
+    setInputForm(() => updatedList);
     setUpdatedObject(undefined);
-  }, [list, updatedObject]);
+  }, [list, setInputForm]);
 
   return (
     <div className="container">
       <div className="wrapper">
         <h2>REGISTER FORM</h2>
-        <input value={inputText} onChange={e => setInputText(e.currentTarget.value)} placeholder="Enter something." />
-        <button onClick={addNewItem}>SUBMIT</button>
+        <button onClick={initInputForm}>ADD NEW ITEM</button>
         <hr />
         <h2>LIST</h2>
         {list && list.map(({ id, value }, index) => (
           <div key={`item-${index}`} className="list">
             <span className="item">ID: {id}</span>
             <span className="item">
-              VALUE: <input id={id} value={updatedObject ? updatedObject[id] : value} onChange={e => setUpdatedObject({ [id]: e.currentTarget.value })} />
+              VALUE:&nbsp;
+              <input
+                id={id}
+                value={updatedObject ? updatedObject[id] : value}
+                onChange={e => setUpdatedObject({ [id]: e.currentTarget.value })}
+                onBlur={changeItemValue}
+              />
             </span>
-            <button onClick={() => changeItemValue(id)}>UPDATE</button>
           </div>
         ))}
       </div>
