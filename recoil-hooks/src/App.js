@@ -1,4 +1,5 @@
 import { RecoilRoot } from 'recoil';
+import TodoList from './components/TodoList';
 import './App.css';
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
         TODO APP
       </header>
       <RecoilRoot>
-        <div>Todo App Body.</div>
+        <TodoList />
       </RecoilRoot>
     </div>
   );
