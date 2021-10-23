@@ -1,7 +1,7 @@
 import { client } from "../libs/httpClient";
 
 export default class TodosService {
-  static async getTodoList(): Promise<Object> {
+  static async getTodoList(): Promise<any> {
     return await client()
       .get(`/todos`)
       .then(response => response.data)
