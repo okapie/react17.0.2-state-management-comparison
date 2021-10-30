@@ -1,11 +1,19 @@
-import { useTodosFetch } from "../../hooks/fetcher/useTodosFetch"
+import { useTodosFetch } from "../../modules/hooks/fetcher/useTodosFetch"
 
 function Todo() {
   const { isLoading, isError, data } = useTodosFetch()
-  console.log(isLoading, isError, data)
 
   return (
-    <div>Todo Page</div>
+    <div>
+      <h1>Todo List Page</h1>
+      {isLoading && (
+        <span>Now loading...</span>
+      )}
+      {isError && (
+        <span>An error has occurred.</span>
+      )}
+      {data?.data.map(({ memo }, index) => <span key={`todo-${index}`}>{memo}</span>)}
+    </div>
   );
 }
 
