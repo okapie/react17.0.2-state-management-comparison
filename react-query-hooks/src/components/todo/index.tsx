@@ -16,7 +16,13 @@ function Todo() {
       {isError && (
         <span>An error has occurred.</span>
       )}
-      {data?.data.map(({ memo }, index) => <span key={`todo-${index}`}>{memo}</span>)}
+      {data?.data.map(({ id, memo, created_at }, index) => (
+        <div key={`todo-${index}`}>
+          <span>ID: {id}</span>
+          <span>Memo: {memo}</span>
+          <span>Created at: {created_at}</span>
+        </div>
+      ))}
       <div>
         <input type="text" onChange={e => setInputText(e.target.value)} />
         <button type="button" onClick={() => mutation.mutate(inputText)}>Add Todo</button>

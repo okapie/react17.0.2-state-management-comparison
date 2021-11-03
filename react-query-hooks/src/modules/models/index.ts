@@ -1,7 +1,7 @@
 export type TodoProps = {
   id: number
   memo: string
-  createdAt: string
+  created_at: string
   updatedAt: string
 }
 
